@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Kunjungan Studi Tiru - Desa Ciburial</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ciburialPrimary: '#1F6F5F',
+                        ciburialSecondary: '#2FA084',
+                        ciburialAccent: '#6FCF97',
+                        ciburialLight: '#F2EDC2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-['Inter'] text-gray-800">
+
+    <!-- Header Banner -->
+    <header class="bg-ciburialPrimary text-white shadow-lg py-8 px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Kunjungan Studi Tiru Desa Ciburial</h1>
+        <p class="mt-2 text-ciburialLight text-sm md:text-base font-medium">Kecamatan Cimenyan, Kabupaten Bandung</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- CARD INFORMASI FITUR & FASILITAS -->
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-ciburialPrimary mb-4 border-b pb-2">Fitur & Fasilitas Kunjungan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700">
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Banner Selamat Datang & Banner Kegiatan</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Snack Box</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Makan Siang (Lunch Box)</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Ruang Meeting / Gedung Pertemuan</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Sound System & Kursi</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Proyektor + Screen Proyektor (1-2 Buah)</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Merchandise Resmi (Plakat Kunjungan)</span></div>
+                <div class="flex items-center space-x-2"><span>✔️</span> <span>Narasumber 2 Orang</span></div>
+                <div class="flex items-center space-x-2 md:col-span-2"><span>✔️</span> <span>Dokumentasi (Posting Media Sosial & Link Google Drive)</span></div>
+            </div>
+        </div>
+
+        <!-- FORMULIR PENDAFTARAN -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-10">
+            <h2 class="text-2xl font-bold text-ciburialPrimary mb-6">Formulir Pendaftaran Studi Tiru</h2>
+
+            <form id="bookingForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+
+                <!-- Tanggal & Sesi Waktu -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal Kunjungan *</label>
+                        <input type="date" id="tanggalKunjungan" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-ciburialSecondary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Sesi Waktu *</label>
+                        <select id="sesiWaktu" required class="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-ciburialSecondary outline-none">
+                            <option value="">-- Pilih Sesi Waktu --</option>
+                            <option value="09.00 - 12.00 WIB">09.00 - 12.00 WIB</option>
+                            <option value="13.00 - 16.00 WIB">13.00 - 16.00 WIB</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Nama Penanggung Jawab & No. WhatsApp -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Koordinator / Penanggung Jawab *</label>
+                        <input type="text" id="namaKoordinator" required placeholder="Nama Lengkap Penanggung Jawab" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-ciburialSecondary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">No. WhatsApp Koordinator *</label>
+                        <input type="tel" id="noWhatsapp" required placeholder="Contoh: 08123456789" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-ciburialSecondary outline-none">
+                    </div>
+                </div>
+
+                <!-- Dropdown Wilayah Bertingkat (API Indonesia) -->
+                <div class="bg-gray-50 p-4 rounded-xl border space-y-4">
+                    <h3 class="font-semibold text-ciburialPrimary text-sm uppercase tracking-wider">Asal Instansi / Wilayah</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Provinsi *</label>
+                            <select id="provinsi" required onchange="loadKabupaten()" class="w-full px-3 py-2 border rounded-lg bg-white text-sm outline-none">
+                                <option value="">-- Pilih Provinsi --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Kabupaten / Kota *</label>
+                            <select id="kabupaten" required onchange="loadKecamatan()" class="w-full px-3 py-2 border rounded-lg bg-white text-sm outline-none" disabled>
+                                <option value="">-- Pilih Kabupaten --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Kecamatan *</label>
+                            <select id="kecamatan" required onchange="loadDesa()" class="w-full px-3 py-2 border rounded-lg bg-white text-sm outline-none" disabled>
+                                <option value="">-- Pilih Kecamatan --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Desa / Kelurahan *</label>
+                            <select id="desa" required class="w-full px-3 py-2 border rounded-lg bg-white text-sm outline-none" disabled>
+                                <option value="">-- Pilih Desa --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materi & Jumlah Peserta -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Materi Tujuan *</label>
+                        <select id="materi" required class="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-ciburialSecondary outline-none">
+                            <option value="">-- Pilih Materi --</option>
+                            <option value="Inovasi Desa">Inovasi Desa</option>
+                            <option value="BUM Desa">BUM Desa</option>
+                            <option value="Lembaga Kemasyarakatan Desa">Lembaga Kemasyarakatan Desa</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Jumlah Peserta (30 - 200 Pax) *</label>
+                        <input type="number" id="jumlahPeserta" min="30" max="200" value="30" required oninput="calculatePrice()" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-ciburialSecondary outline-none">
+                    </div>
+                </div>
+
+                <!-- Add-Ons Checkbox -->
+                <div class="bg-gray-50 p-4 rounded-xl border space-y-3">
+                    <h3 class="font-semibold text-ciburialPrimary text-sm uppercase tracking-wider">Opsi Tambahan (Add-ons)</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="addKesenian" onchange="calculatePrice()" class="w-4 h-4 text-ciburialSecondary rounded">
+                            <span class="text-sm">Pertunjukan Kesenian Adat (Rp 1.500.000)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="addCoffee" onchange="calculatePrice()" class="w-4 h-4 text-ciburialSecondary rounded">
+                            <span class="text-sm">Coffee Break (Rp 20.000 / pax)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Catatan -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Catatan Tambahan (Opsional)</label>
+                    <textarea id="catatan" rows="2" placeholder="Catatan khusus atau permintaan tambahan..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-ciburialSecondary outline-none"></textarea>
+                </div>
+
+                <!-- Rincian Biaya (Tampilan Rapi Sejajar) -->
+                <div class="bg-ciburialLight/40 p-5 rounded-xl border border-ciburialSecondary/30 space-y-3">
+                    <h3 class="font-bold text-ciburialPrimary text-base mb-2">Rincian Biaya</h3>
+                    
+                    <div class="text-sm space-y-2 text-gray-700">
+                        <div class="grid grid-cols-12 gap-1">
+                            <span class="col-span-6 md:col-span-5 font-medium">Harga Paket / Pax</span>
+                            <span class="col-span-1 text-center">:</span>
+                            <span class="col-span-5 md:col-span-6 font-semibold text-gray-900" id="displayHargaPaket">Rp 0</span>
+                        </div>
+                        <div class="grid grid-cols-12 gap-1">
+                            <span class="col-span-6 md:col-span-5 font-medium">Total Paket (<span id="displayPax">0</span> Pax)</span>
+                            <span class="col-span-1 text-center">:</span>
+                            <span class="col-span-5 md:col-span-6 font-semibold text-gray-900" id="displayTotalPaket">Rp 0</span>
+                        </div>
+                        <div class="grid grid-cols-12 gap-1">
+                            <span class="col-span-6 md:col-span-5 font-medium">Add-on Kesenian</span>
+                            <span class="col-span-1 text-center">:</span>
+                            <span class="col-span-5 md:col-span-6 font-semibold text-gray-900" id="displayKesenian">Rp 0</span>
+                        </div>
+                        <div class="grid grid-cols-12 gap-1">
+                            <span class="col-span-6 md:col-span-5 font-medium">Add-on Coffee Break</span>
+                            <span class="col-span-1 text-center">:</span>
+                            <span class="col-span-5 md:col-span-6 font-semibold text-gray-900" id="displayCoffee">Rp 0</span>
+                        </div>
+
+                        <hr class="border-ciburialSecondary/30 my-3">
+
+                        <div class="grid grid-cols-12 gap-1 items-center">
+                            <span class="col-span-6 md:col-span-5 font-bold text-base text-ciburialPrimary">Total Tagihan</span>
+                            <span class="col-span-1 text-center font-bold">:</span>
+                            <span class="col-span-5 md:col-span-6 text-lg font-extrabold text-ciburialPrimary" id="displayTotalTagihan">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitBtn" class="w-full bg-ciburialPrimary hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl transition shadow-lg">
+                    Kirim Pendaftaran Kunjungan
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- CUSTOM SUCCESS MODAL (Pop-up Profesional) -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden px-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 md:p-8 space-y-4 text-center border-t-4 border-ciburialPrimary">
+            <div class="w-16 h-16 bg-ciburialLight/60 text-ciburialPrimary rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
+                ✓
+            </div>
+            <h3 class="text-2xl font-bold text-ciburialPrimary">Pendaftaran Berhasil!</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+                Terima kasih, permintaan kunjungan studi tiru Anda sedang diproses oleh tim Desa Ciburial.
+            </p>
+            <div class="bg-gray-50 p-3 rounded-xl border text-left text-xs space-y-1">
+                <p><strong>ID Booking:</strong> <span id="modalIdBooking" class="font-mono text-ciburialPrimary font-bold">-</span></p>
+                <p><strong>Total Tagihan:</strong> <span id="modalTotalTagihan" class="font-semibold text-gray-800">-</span></p>
+            </div>
+            <p class="text-xs text-gray-500">
+                Informasi lebih lanjut dapat mengunjungi <a href="https://ciburial.desa.id" target="_blank" class="text-ciburialSecondary underline font-semibold">ciburial.desa.id</a>.
+            </p>
+            <div class="pt-2">
+                <a id="waButtonLink" href="#" class="w-full inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition shadow-md text-center text-sm">
+                    Lanjutkan Konfirmasi via WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPm5PiLA4UgOHQuse7r2LsxmcBCnO1QcLzZhNuX2S8KwCeC3bWH7B2GTXjwMBDWZle/exec";
+
+        let calculatedHargaPaketPax = 0;
+        let calculatedKesenian = 0;
+        let calculatedCoffee = 0;
+        let calculatedTotalTagihan = 0;
+
+        // 1. Inisialisasi Data Provinsi dari API Wilayah Indonesia
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                .then(response => response.json())
+                .then(provinces => {
+                    let select = document.getElementById('provinsi');
+                    provinces.forEach(p => {
+                        let opt = document.createElement('option');
+                        opt.value = p.name;
+                        opt.dataset.id = p.id;
+                        opt.text = p.name;
+                        select.appendChild(opt);
+                    });
+                });
+            calculatePrice();
+        });
+
+        function loadKabupaten() {
+            let provSelect = document.getElementById('provinsi');
+            let selectedOpt = provSelect.options[provSelect.selectedIndex];
+            let provId = selectedOpt.dataset.id;
+            
+            let kabSelect = document.getElementById('kabupaten');
+            kabSelect.innerHTML = '<option value="">-- Pilih Kabupaten --</option>';
+            kabSelect.disabled = true;
+
+            document.getElementById('kecamatan').innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
+            document.getElementById('kecamatan').disabled = true;
+            document.getElementById('desa').innerHTML = '<option value="">-- Pilih Desa --</option>';
+            document.getElementById('desa').disabled = true;
+
+            if (provId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+                    .then(response => response.json())
+                    .then(regencies => {
+                        regencies.forEach(r => {
+                            let opt = document.createElement('option');
+                            opt.value = r.name;
+                            opt.dataset.id = r.id;
+                            opt.text = r.name;
+                            kabSelect.appendChild(opt);
+                        });
+                        kabSelect.disabled = false;
+                    });
+            }
+        }
+
+        function loadKecamatan() {
+            let kabSelect = document.getElementById('kabupaten');
+            let selectedOpt = kabSelect.options[kabSelect.selectedIndex];
+            let kabId = selectedOpt.dataset.id;
+
+            let kecSelect = document.getElementById('kecamatan');
+            kecSelect.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
+            kecSelect.disabled = true;
+
+            document.getElementById('desa').innerHTML = '<option value="">-- Pilih Desa --</option>';
+            document.getElementById('desa').disabled = true;
+
+            if (kabId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kabId}.json`)
+                    .then(response => response.json())
+                    .then(districts => {
+                        districts.forEach(d => {
+                            let opt = document.createElement('option');
+                            opt.value = d.name;
+                            opt.dataset.id = d.id;
+                            opt.text = d.name;
+                            kecSelect.appendChild(opt);
+                        });
+                        kecSelect.disabled = false;
+                    });
+            }
+        }
+
+        function loadDesa() {
+            let kecSelect = document.getElementById('kecamatan');
+            let selectedOpt = kecSelect.options[kecSelect.selectedIndex];
+            let kecId = selectedOpt.dataset.id;
+
+            let desaSelect = document.getElementById('desa');
+            desaSelect.innerHTML = '<option value="">-- Pilih Desa --</option>';
+            desaSelect.disabled = true;
+
+            if (kecId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+                    .then(response => response.json())
+                    .then(villages => {
+                        villages.forEach(v => {
+                            let opt = document.createElement('option');
+                            opt.value = v.name;
+                            opt.text = v.name;
+                            desaSelect.appendChild(opt);
+                        });
+                        desaSelect.disabled = false;
+                    });
+            }
+        }
+
+        // 2. Logika Perhitungan Matematika HPP & Harga Paket
+        function calculatePrice() {
+            let pax = parseInt(document.getElementById('jumlahPeserta').value) || 30;
+            if (pax < 30) pax = 30;
+            if (pax > 200) pax = 200;
+
+            let fixedCost = 5100000;
+            let variableCostTotal = 147500 * pax;
+            let totalHppModal = fixedCost + variableCostTotal;
+
+            let marginPercent = (pax < 50) ? 0.30 : 0.25;
+
+            let totalJual = totalHppModal / (1 - marginPercent);
+            let rawHargaPax = totalJual / pax;
+
+            calculatedHargaPaketPax = Math.ceil(rawHargaPax / 1000) * 1000;
+            let totalPaketCost = calculatedHargaPaketPax * pax;
+
+            calculatedKesenian = document.getElementById('addKesenian').checked ? 1500000 : 0;
+            calculatedCoffee = document.getElementById('addCoffee').checked ? (20000 * pax) : 0;
+
+            calculatedTotalTagihan = totalPaketCost + calculatedKesenian + calculatedCoffee;
+
+            document.getElementById('displayHargaPaket').innerText = `Rp ${calculatedHargaPaketPax.toLocaleString('id-ID')}`;
+            document.getElementById('displayPax').innerText = pax;
+            document.getElementById('displayTotalPaket').innerText = `Rp ${totalPaketCost.toLocaleString('id-ID')}`;
+            document.getElementById('displayKesenian').innerText = `Rp ${calculatedKesenian.toLocaleString('id-ID')}`;
+            document.getElementById('displayCoffee').innerText = `Rp ${calculatedCoffee.toLocaleString('id-ID')}`;
+            document.getElementById('displayTotalTagihan').innerText = `Rp ${calculatedTotalTagihan.toLocaleString('id-ID')}`;
+        }
+
+        // 3. Helper Generate ID Unik & Tanggal
+        function generateIDBooking() {
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yy = String(today.getFullYear()).slice(-2);
+            let randomChars = Math.random().toString(36).substring(2, 5).toUpperCase();
+            return `ID${dd}${mm}${yy}-${randomChars}`;
+        }
+
+        function getFormattedToday() {
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0');
+            let yyyy = today.getFullYear();
+            return `${dd}/${mm}/${yyyy}`;
+        }
+
+        // 4. Handle Submit Form
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Mengirim Data...";
+            btn.disabled = true;
+
+            const idBooking = generateIDBooking();
+            const tanggalInput = getFormattedToday();
+            const tanggalKunjungan = document.getElementById('tanggalKunjungan').value;
+            const sesiWaktu = document.getElementById('sesiWaktu').value;
+            const namaKoordinator = document.getElementById('namaKoordinator').value;
+            const noWhatsapp = document.getElementById('noWhatsapp').value;
+            const provinsi = document.getElementById('provinsi').value;
+            const kabupaten = document.getElementById('kabupaten').value;
+            const kecamatan = document.getElementById('kecamatan').value;
+            const desa = document.getElementById('desa').value;
+            const materi = document.getElementById('materi').value;
+            const jumlahPeserta = document.getElementById('jumlahPeserta').value;
+            const catatan = document.getElementById('catatan').value || "-";
+
+            const payload = {
+                idBooking: idBooking,
+                tanggalInput: tanggalInput,
+                tanggalKunjungan: tanggalKunjungan,
+                sesiWaktu: sesiWaktu,
+                provinsi: provinsi,
+                kabupaten: kabupaten,
+                kecamatan: kecamatan,
+                desa: desa,
+                materi: materi,
+                jumlahPeserta: jumlahPeserta,
+                hargaPaketPax: calculatedHargaPaketPax,
+                kesenian: calculatedKesenian,
+                coffeeBreak: calculatedCoffee,
+                totalTagihan: calculatedTotalTagihan,
+                catatan: catatan,
+                status: "Pending",
+                namaKoordinator: namaKoordinator,
+                noWhatsapp: noWhatsapp
+            };
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                const waMessage = `Halo Admin Desa Ciburial, saya mengirimkan pendaftaran kunjungan studi tiru.\n\n` +
+                    `*ID Booking:* ${idBooking}\n` +
+                    `*Koordinator:* ${namaKoordinator} (${noWhatsapp})\n` +
+                    `*Instansi:* Desa/Kel. ${desa}, Kec. ${kecamatan}, ${kabupaten}, ${provinsi}\n` +
+                    `*Tanggal:* ${tanggalKunjungan} (${sesiWaktu})\n` +
+                    `*Peserta:* ${jumlahPeserta} orang\n` +
+                    `*Materi:* ${materi}\n` +
+                    `*Estimasi Total:* Rp ${calculatedTotalTagihan.toLocaleString('id-ID')}\n\n` +
+                    `Mohon diproses. Terima kasih!`;
+                
+                const waUrl = `https://wa.me/6287835770577?text=${encodeURIComponent(waMessage)}`;
+
+                document.getElementById('modalIdBooking').innerText = idBooking;
+                document.getElementById('modalTotalTagihan').innerText = `Rp ${calculatedTotalTagihan.toLocaleString('id-ID')}`;
+                document.getElementById('waButtonLink').href = waUrl;
+
+                document.getElementById('successModal').classList.remove('hidden');
+            })
+            .catch(error => {
+                alert("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
+                btn.innerText = "Kirim Pendaftaran Kunjungan";
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
